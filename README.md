@@ -1,16 +1,15 @@
-# Maliha Birthday
+# For Maliha Fahad
 
-Private birthday love journey for **Maliha Fahad**.
+Private birthday love journey.
 
-## Live site
-
-After GitHub Pages is on:
+## Live link (share this)
 
 **https://fahad4787.github.io/Maliha-Birthday/**
 
-Password: `roham`
+**Password:** `roham`  
+Hint on screen: *Our little heartbeat*
 
-## Local
+## Local preview
 
 ```bash
 python3 -m http.server 8765

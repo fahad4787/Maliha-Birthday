@@ -262,12 +262,12 @@
         <h3 class="scene-title">To my Maliha Fahad</h3>
         <div class="letter-block">
           <p>Jaan. Mera Bacha. Meri stubborn storm.</p>
-          <p>From that first rishta photo to these years together, ap ne meri life badal di. Hum ladte hain, jagrte hain, phir bhi end mein meri har raat ap pe hi rukti hai. Soft side bhi ap, dirty side bhi ap, ghar bhi ap.</p>
-          <p>Woh pehli nazar, woh pehli raat jab ghar koi nahi tha, shadi ke shuru ke din jab apki neck kabhi saaf nahi hoti thi, subah ki chai naan chany, bike rides, saman lene jana, Roham, hasi, drama, masti. Yeh sab humara journey hai. Yeh sab ap hain.</p>
-          <p>Aaj birthday pe main cheezen nahi de raha. Main yeh sach de raha hoon: fighting ne humein cancel nahi kiya. Distance ne humein delete nahi kiya. Ap Maliha Fahad hain. Meri wife. Meri hunger. Meri peace. Meri forever.</p>
+          <p>Us pehli rishta photo se lekar aaj tak, ap ne meri life badal di. Hum ladte hain, jagrte hain, phir bhi end mein meri har raat ap pe hi rukti hai. Soft side bhi ap, dirty side bhi ap, ghar bhi ap.</p>
+          <p>Woh pehli nazar, woh pehli raat jab ghar koi nahi tha, shadi ke shuru ke din, chai naan chany, bike rides, Roham, hasi, drama, masti. Yeh sab humari story hai. Yeh sab ap hain.</p>
+          <p>Birthday pe main cheezen nahi de raha. Main yeh sach de raha hoon: fighting ne humein cancel nahi kiya. Distance ne humein delete nahi kiya. Ap Maliha Fahad hain. Meri wife. Meri hunger. Meri peace. Meri forever.</p>
           <p class="signoff">Happy Birthday, Jaan.<br/>Apka hamesha,<br/>Fahad</p>
         </div>
-        <p class="letter-swipe">Swipe once more…</p>
+        <p class="letter-swipe">Ek last swipe…</p>
       </div>`;
   }
 
@@ -305,7 +305,7 @@
         <h3 class="scene-title">${scene.title}</h3>
         <p class="scene-text">${scene.text || ""}</p>
         <button type="button" class="pulse-btn hold-btn" id="blow-btn">Hold to blow candles</button>
-        <p class="cake-note" id="cake-note" hidden>Wish locked in. Your letter awaits…</p>
+        <p class="cake-note" id="cake-note" hidden>Wish locked. Letter aa rahi hai…</p>
       </div>`;
   }
 

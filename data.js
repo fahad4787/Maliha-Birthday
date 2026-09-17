@@ -46,7 +46,7 @@ window.BIRTHDAY = {
       tone: "romantic",
       kicker: "06 · Soft fire",
       title: "Love living in your eyes",
-      text: "Jab ap aise dekhti hain na Jaan to meri saari gussa nikal jati hai. Apki aankhon mein itna pyaar hai ke main bas ruk jata hoon. Sach mein apki nazar mujhe ghar jaisa feel karati hai.",
+      text: "Jab ap aise dekhti hain na Jaan, meri saari gussa nikal jati hai. Apki aankhon mein itna pyaar hai ke main bas ruk jata hoon. Yeh nazar meri home hai, meri soft addiction hai.",
       image: "images/opt/love-in-eyes.webp",
     },
     {
@@ -62,7 +62,7 @@ window.BIRTHDAY = {
       tone: "romantic",
       kicker: "08 · Us",
       title: "Perfect couple, imperfect days",
-      text: "Hum perfect isliye nahi ke roz soft din hote hain. Perfect isliye hain ke ladne ke baad bhi hum ek doosre ke paas aa jate hain. Ap meri chaos bhi hain aur meri sukoon bhi Jaan.",
+      text: "Hum perfect isliye nahi ke roz soft din hote hain. Perfect isliye hain ke ladne ke baad bhi hum ek doosre ke paas aa jate hain. Ap meri chaos bhi hain, meri sukoon bhi, meri favourite fight bhi Jaan.",
       image: "images/opt/perfect-couple.webp",
     },
     {
@@ -86,7 +86,7 @@ window.BIRTHDAY = {
       tone: "romantic",
       kicker: "11 · Forever frame",
       title: "My favourite of all time",
-      text: "Agar mujhe forever ke liye ek hi photo rakhni ho to woh yeh hi hogi. Maliha Fahad ap meri favourite picture hain, meri craze hain, meri poori gallery hain. Bas ap.",
+      text: "Agar forever ke liye ek hi photo rakhni ho to yeh hi hogi. Maliha Fahad, ap meri favourite picture hain, meri craze hain, meri poori gallery hain. Bas ap, aur kuch nahi.",
       image: "images/opt/favorite.webp",
     },
     {
@@ -94,7 +94,7 @@ window.BIRTHDAY = {
       tone: "playful",
       kicker: "12 · Chaos soft",
       title: "Mula Jutt energy",
-      text: "Apka drama, apki jokes, apke mood swings, sab mil ke ap ordinary din ko bhi interesting bana deti hain. Main apka fan hoon Mera Bacha. Apki energy hi meri smile hai.",
+      text: "Apka drama, apki jokes, apke mood swings, sab mil ke ordinary din ko bhi cinema bana dete hain. Main apka biggest fan hoon Mera Bacha. Apki energy hi meri smile hai.",
       image: "images/opt/mula-jutt.webp",
     },
     {
@@ -110,7 +110,7 @@ window.BIRTHDAY = {
       tone: "playful",
       kicker: "14 · My comedian",
       title: "That weird face I adore",
-      text: "Yeh weird face dekh ke bhi mujhe hasi aa jati hai. Isliye main apko Mera Bacha kehta hoon. Silly bhi hain, soft bhi hain, aur meri favourite comedian bhi. Apki har face mujhe pyari lagti hai.",
+      text: "Yeh weird face dekh ke bhi mujhe hasi aa jati hai. Isliye main apko Mera Bacha kehta hoon. Silly bhi hain, soft bhi hain, meri favourite comedian bhi. Apki har face mujhe pyari lagti hai.",
       image: "images/opt/funny-face.webp",
     },
     {
@@ -142,7 +142,7 @@ window.BIRTHDAY = {
       tone: "family",
       kicker: "18 · Our boy",
       title: "Love of our beautiful son",
-      text: "Yeh hamara beta hai, hamara proof. Har ladai ke baad bhi yeh soch ke dil soft ho jata hai ke humne yeh ghar banaya. Apki god, meri dua, humara Roham. Bas yehi family hai meri.",
+      text: "Yeh hamara beta hai, hamara proof. Har ladai ke baad bhi dil soft ho jata hai ke humne yeh ghar banaya. Apki god, meri dua, humara Roham. Bas yehi family hai meri.",
       image: "images/opt/beautiful-son.webp",
     },
     {
