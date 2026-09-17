@@ -625,8 +625,8 @@ input {
   font-size: 0.62rem;
   font-weight: 700;
   opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+  transform: translateY(10px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
 }
 
 .scene-title {
@@ -637,8 +637,8 @@ input {
   font-weight: 700;
   text-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+  transform: translateY(12px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
 }
 
 .title-kiss {
@@ -658,25 +658,25 @@ input {
   line-height: 1.5;
   font-weight: 500;
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+  transform: translateY(12px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
 }
 
 .scene.is-active .scene-kicker,
 .scene.is-active .scene-title,
 .scene.is-active .scene-text {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
 .scene.is-active .scene-kicker {
-  transition-delay: 0.1s;
+  transition-delay: 0.05s;
 }
 .scene.is-active .scene-title {
-  transition-delay: 0.18s;
+  transition-delay: 0.1s;
 }
 .scene.is-active .scene-text {
-  transition-delay: 0.26s;
+  transition-delay: 0.14s;
 }
 
 /* Cake scene */

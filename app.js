@@ -216,17 +216,22 @@
   }
 
   function hydrateImages(center) {
-    const from = Math.max(0, center - 1);
-    const to = Math.min(nodes.length - 1, center + 2);
-    for (let i = from; i <= to; i++) {
-      const img = nodes[i]?.querySelector("img[data-src]");
-      if (!img) continue;
-      const src = img.getAttribute("data-src");
-      if (!src || img.src.includes(src)) continue;
-      img.src = src;
+    const from = Math.max(0, center - 2);
+    const to = Math.min(nodes.length - 1, center + 3);
+    for (let i = from; i <= to; i++) ensureSceneImage(i);
+  }
+
+  function ensureSceneImage(i) {
+    const img = nodes[i]?.querySelector("img");
+    if (!img) return;
+    const src = img.getAttribute("data-src") || img.getAttribute("src");
+    if (!src) return;
+    if (img.dataset.src) {
+      img.src = img.dataset.src;
       img.removeAttribute("data-src");
-      preloaded.add(src);
     }
+    if (!img.getAttribute("src") && src) img.src = src;
+    preloaded.add(src);
   }
 
   async function warmBoot() {
@@ -234,6 +239,7 @@
       "images/opt/favorite.webp",
       SCENES[0]?.image,
       SCENES[1]?.image,
+      SCENES[2]?.image,
     ].filter(Boolean);
     await Promise.all(first.map(preload));
     boot.classList.add("is-done");
@@ -242,9 +248,10 @@
 
   function preloadAround(i) {
     hydrateImages(i);
-    preload(SCENES[i + 1]?.image);
-    preload(SCENES[i + 2]?.image);
-    preload(SCENES[i + 3]?.image);
+    for (let n = 1; n <= 4; n++) {
+      preload(SCENES[i + n]?.image);
+      preload(SCENES[i - n]?.image);
+    }
   }
 
   /* ---------- build scenes ---------- */
@@ -269,7 +276,7 @@
     const line = scene.text || "Meri naughty wife. Meri lingerie wali Jaan. Meri hunger. Meri forever.";
     return `
       <div class="ending-media">
-        <img data-src="${img}" alt="" decoding="async" />
+        <img src="${img}" alt="" decoding="async" />
       </div>
       <div class="ending-veil" aria-hidden="true"></div>
       <div class="ending-float" aria-hidden="true">
@@ -291,7 +298,7 @@
         <div class="flames" id="flames">
           <span class="flame"></span><span class="flame"></span><span class="flame"></span>
         </div>
-        <img data-src="${scene.image}" alt="Birthday cake" width="280" height="280" decoding="async" />
+        <img src="${scene.image}" alt="Birthday cake" width="280" height="280" decoding="async" />
       </div>
       <div class="scene-copy">
         <p class="scene-kicker">${scene.kicker}</p>
@@ -302,13 +309,10 @@
       </div>`;
   }
 
-  function photoHTML(scene, eager) {
-    const srcAttr = eager
-      ? `src="${scene.image}"`
-      : `data-src="${scene.image}"`;
+  function photoHTML(scene) {
     return `
       <div class="scene-media">
-        <img ${srcAttr} alt="" decoding="async" ${eager ? 'loading="eager"' : 'loading="lazy"'} />
+        <img src="${scene.image}" alt="" decoding="async" />
       </div>
       <div class="scene-copy">
         <p class="scene-kicker">${scene.kicker || ""}</p>
@@ -334,13 +338,12 @@
       } else if (scene.type === "cake") {
         el.innerHTML = cakeHTML(scene);
       } else {
-        el.innerHTML = photoHTML(scene, i < 2);
+        el.innerHTML = photoHTML(scene);
       }
       deck.appendChild(el);
       nodes.push(el);
     });
     stepTotal.textContent = String(SCENES.length);
-    hydrateImages(0);
     wireCake();
   }
 
@@ -379,68 +382,63 @@
     preloadAround(index);
   }
 
-  async function showScene(next, dir = 1) {
-    if (transitioning) return;
-    transitioning = true;
-    try {
-      hydrateImages(next);
-      const curr = nodes[index];
-      const upcoming = nodes[next];
-      if (!upcoming) return;
+  let pendingNav = null;
+  let unlockTimer = 0;
 
-      const img = upcoming.querySelector("img");
-      if (img?.dataset.src) {
-        img.src = img.dataset.src;
-        img.removeAttribute("data-src");
-      }
-      if (img && !img.complete) {
-        try {
-          await Promise.race([
-            img.decode(),
-            new Promise((resolve) => setTimeout(resolve, 350)),
-          ]);
-        } catch (_) {}
-      }
-
-      if (curr && curr !== upcoming) {
-        curr.classList.remove("is-active");
-        curr.classList.add(dir > 0 ? "is-exit-left" : "is-exit-right");
-        setTimeout(() => curr.classList.remove("is-exit-left", "is-exit-right"), 650);
-      }
-
-      // Force text reveal restart every slide
-      upcoming.querySelectorAll(".scene-kicker, .scene-title, .scene-text").forEach((el) => {
-        el.style.transition = "none";
-        el.style.opacity = "0";
-        el.style.transform = "translateY(14px)";
-      });
-
-      upcoming.classList.remove("is-exit-left", "is-exit-right");
-      void upcoming.offsetWidth;
-
-      upcoming.querySelectorAll(".scene-kicker, .scene-title, .scene-text").forEach((el) => {
-        el.style.transition = "";
-        el.style.opacity = "";
-        el.style.transform = "";
-      });
-
-      upcoming.classList.add("is-active");
-      index = next;
-      updateUI();
-
-      const isEnd = SCENES[next]?.type === "ending" || SCENES[next]?.id === "the-end";
-      const isIntimate = SCENES[next]?.tone === "intimate";
-      kissRain(isEnd ? 12 : isIntimate ? 8 : 5);
-      burst(window.innerWidth * 0.5, window.innerHeight * 0.35);
-    } finally {
-      setTimeout(() => {
-        transitioning = false;
-      }, 320);
+  function showScene(next, dir = 1) {
+    const curr = nodes[index];
+    const upcoming = nodes[next];
+    if (!upcoming) {
+      transitioning = false;
+      return;
     }
+
+    transitioning = true;
+    ensureSceneImage(next);
+    ensureSceneImage(next + 1);
+    ensureSceneImage(next - 1);
+    hydrateImages(next);
+
+    if (curr && curr !== upcoming) {
+      curr.classList.remove("is-active", "is-exit-left", "is-exit-right");
+      curr.classList.add(dir > 0 ? "is-exit-left" : "is-exit-right");
+      clearTimeout(curr._exitTimer);
+      curr._exitTimer = setTimeout(() => {
+        curr.classList.remove("is-exit-left", "is-exit-right");
+      }, 500);
+    }
+
+    upcoming.classList.remove("is-exit-left", "is-exit-right");
+    upcoming.classList.add("is-active");
+    index = next;
+    updateUI();
+
+    const isEnd = SCENES[next]?.type === "ending" || SCENES[next]?.id === "the-end";
+    const isIntimate = SCENES[next]?.tone === "intimate";
+    kissRain(isEnd ? 10 : isIntimate ? 6 : 4);
+    burst(window.innerWidth * 0.5, window.innerHeight * 0.35);
+
+    clearTimeout(unlockTimer);
+    unlockTimer = setTimeout(() => {
+      transitioning = false;
+      if (pendingNav) {
+        const p = pendingNav;
+        pendingNav = null;
+        if (p.next !== index) showScene(p.next, p.dir);
+      }
+    }, 160);
   }
 
   function goTo(next, dir = 1) {
     if (next < 0 || next >= SCENES.length || next === index) return;
+    if (transitioning) {
+      pendingNav = { next, dir };
+      // Interrupt soft lock so fast swipes still land on latest slide
+      transitioning = false;
+      clearTimeout(unlockTimer);
+      showScene(next, dir);
+      return;
+    }
     showScene(next, dir);
   }
 
@@ -548,14 +546,16 @@
     story.classList.add("is-on");
     document.body.classList.add("is-story");
     index = 0;
-    nodes.forEach((n) => n.classList.remove("is-active"));
+    nodes.forEach((n) => n.classList.remove("is-active", "is-exit-left", "is-exit-right"));
     nodes[0]?.classList.add("is-active");
     hydrateImages(0);
     updateUI();
     burst();
     kissRain(8);
-    // Warm next few only (not the whole gallery at once)
-    [0, 1, 2, 3].forEach((i) => preload(SCENES[i]?.image));
+    // Warm gallery in background (tiny webps)
+    const warm = () => SCENES.forEach((s) => preload(s.image));
+    if ("requestIdleCallback" in window) requestIdleCallback(warm, { timeout: 1200 });
+    else setTimeout(warm, 400);
   });
 
   buildDeck();
