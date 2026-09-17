@@ -288,7 +288,7 @@
         <h3 class="ending-love">I love you</h3>
         <p class="ending-name">Maliha Fahad</p>
         <p class="ending-fin">The End</p>
-        <p class="ending-soft">Ab so jao Jaan… ya phir mere paas aa jao.</p>
+        <p class="ending-soft">Abhi ghar aake chumi deta. Bye.</p>
       </div>`;
   }
 
