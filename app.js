@@ -382,45 +382,61 @@
   async function showScene(next, dir = 1) {
     if (transitioning) return;
     transitioning = true;
-    hydrateImages(next);
-    const curr = nodes[index];
-    const upcoming = nodes[next];
-    if (!upcoming) {
-      transitioning = false;
-      return;
+    try {
+      hydrateImages(next);
+      const curr = nodes[index];
+      const upcoming = nodes[next];
+      if (!upcoming) return;
+
+      const img = upcoming.querySelector("img");
+      if (img?.dataset.src) {
+        img.src = img.dataset.src;
+        img.removeAttribute("data-src");
+      }
+      if (img && !img.complete) {
+        try {
+          await Promise.race([
+            img.decode(),
+            new Promise((resolve) => setTimeout(resolve, 350)),
+          ]);
+        } catch (_) {}
+      }
+
+      if (curr && curr !== upcoming) {
+        curr.classList.remove("is-active");
+        curr.classList.add(dir > 0 ? "is-exit-left" : "is-exit-right");
+        setTimeout(() => curr.classList.remove("is-exit-left", "is-exit-right"), 650);
+      }
+
+      // Force text reveal restart every slide
+      upcoming.querySelectorAll(".scene-kicker, .scene-title, .scene-text").forEach((el) => {
+        el.style.transition = "none";
+        el.style.opacity = "0";
+        el.style.transform = "translateY(14px)";
+      });
+
+      upcoming.classList.remove("is-exit-left", "is-exit-right");
+      void upcoming.offsetWidth;
+
+      upcoming.querySelectorAll(".scene-kicker, .scene-title, .scene-text").forEach((el) => {
+        el.style.transition = "";
+        el.style.opacity = "";
+        el.style.transform = "";
+      });
+
+      upcoming.classList.add("is-active");
+      index = next;
+      updateUI();
+
+      const isEnd = SCENES[next]?.type === "ending" || SCENES[next]?.id === "the-end";
+      const isIntimate = SCENES[next]?.tone === "intimate";
+      kissRain(isEnd ? 12 : isIntimate ? 8 : 5);
+      burst(window.innerWidth * 0.5, window.innerHeight * 0.35);
+    } finally {
+      setTimeout(() => {
+        transitioning = false;
+      }, 320);
     }
-
-    const img = upcoming.querySelector("img");
-    if (img?.dataset.src) {
-      img.src = img.dataset.src;
-      img.removeAttribute("data-src");
-    }
-    if (img && !img.complete) {
-      try {
-        await img.decode();
-      } catch (_) {}
-    }
-
-    if (curr && curr !== upcoming) {
-      curr.classList.remove("is-active");
-      curr.classList.add(dir > 0 ? "is-exit-left" : "is-exit-right");
-      setTimeout(() => curr.classList.remove("is-exit-left", "is-exit-right"), 650);
-    }
-
-    upcoming.classList.remove("is-exit-left", "is-exit-right");
-    void upcoming.offsetWidth;
-    upcoming.classList.add("is-active");
-    index = next;
-    updateUI();
-
-    const isEnd = SCENES[next]?.type === "ending" || SCENES[next]?.id === "the-end";
-    const isIntimate = SCENES[next]?.tone === "intimate";
-    kissRain(isEnd ? 12 : isIntimate ? 8 : 5);
-    burst(window.innerWidth * 0.5, window.innerHeight * 0.35);
-
-    setTimeout(() => {
-      transitioning = false;
-    }, 420);
   }
 
   function goTo(next, dir = 1) {
